@@ -1,12 +1,9 @@
-import {
-  Scene,
-  HemisphericLight,
-  Vector3,
-  MeshBuilder,
-  Color4,
-  StandardMaterial,
-  Color3,
-} from "@babylonjs/core";
+import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { Color3, Color4 } from "@babylonjs/core/Maths/math.color";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
+import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
+import { Scene } from "@babylonjs/core/scene";
 
 export class World {
   constructor(scene: Scene) {
@@ -47,11 +44,12 @@ export class World {
 
     // Random obstacles
     for (let i = 0; i < 60; i++) {
+      const height = Math.random() * 6 + 2;
       const box = MeshBuilder.CreateBox(
         "box" + i,
         {
           width: 3,
-          height: Math.random() * 6 + 2,
+          height,
           depth: 3,
         },
         scene
@@ -59,7 +57,7 @@ export class World {
 
       box.position.x = Math.random() * 180 - 90;
       box.position.z = Math.random() * 180 - 90;
-      box.position.y = box.scaling.y;
+      box.position.y = height / 2;
 
       const mat = new StandardMaterial(
         "boxMat" + i,

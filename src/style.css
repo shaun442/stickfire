@@ -1,0 +1,24 @@
+:root {
+  color: #ffffff;
+  background: #87ceeb;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app,
+#game-canvas {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#game-canvas {
+  display: block;
+  touch-action: none;
+}

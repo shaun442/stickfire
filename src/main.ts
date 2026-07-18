@@ -12,4 +12,4 @@ canvas.id = "game-canvas";
 canvas.setAttribute("aria-label", "StickFire game preview");
 app.append(canvas);
 
-new Game(canvas);
+new Game(canvas, app);

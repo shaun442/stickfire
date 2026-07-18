@@ -1,35 +1,40 @@
-import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
 import { Engine } from "@babylonjs/core/Engines/engine";
-import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { Scene } from "@babylonjs/core/scene";
 
+import { Input } from "./input";
+import { PlayerController } from "./playercontroller";
+import { Crosshair } from "../ui/crosshair";
 import { World } from "../world/World";
 
 export class Game {
   private readonly engine: Engine;
   private readonly scene: Scene;
+  private readonly input: Input;
+  private readonly player: PlayerController;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, uiRoot: HTMLElement) {
     this.engine = new Engine(canvas, true);
     this.scene = new Scene(this.engine);
+    this.input = new Input();
 
-    new ArcRotateCamera(
-      "previewCamera",
-      Math.PI / 4,
-      Math.PI / 3,
-      32,
-      Vector3.Zero(),
-      this.scene
-    ).attachControl(canvas, true);
+    canvas.addEventListener("click", this.input.handlePointerLockClick);
+    document.addEventListener("mousemove", this.input.handleMouseMove);
 
     new World(this.scene);
+    this.player = new PlayerController(this.scene, this.input);
+    new Crosshair(uiRoot);
 
     this.engine.runRenderLoop(() => {
+      const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05);
+      this.player.update(dt);
+      this.input.endFrame();
       this.scene.render();
     });
 
-    window.addEventListener("resize", () => {
-      this.engine.resize();
-    });
+    window.addEventListener("resize", () => this.engine.resize());
+  }
+
+  dispose(): void {
+    this.engine.dispose();
   }
 }

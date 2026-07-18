@@ -4,7 +4,7 @@ export const Config = {
     sprintMultiplier: 1.6,
     jumpVelocity: 10,
     gravity: -30,
-    groundHeight: 0.5,
+    groundHeight: 1.6,
   },
   mouse: {
     sensitivity: 0.002,
